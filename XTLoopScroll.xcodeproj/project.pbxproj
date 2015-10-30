@@ -15,6 +15,7 @@
 		D74145BC1BE3506100053E40 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D74145BA1BE3506100053E40 /* LaunchScreen.storyboard */; };
 		D74145C71BE3506300053E40 /* XTLoopScrollTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74145C61BE3506300053E40 /* XTLoopScrollTests.m */; };
 		D74145D21BE3506300053E40 /* XTLoopScrollUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74145D11BE3506300053E40 /* XTLoopScrollUITests.m */; };
+		D74145E11BE35DB100053E40 /* XTLoopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D74145E01BE35DB100053E40 /* XTLoopScrollView.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		D74145CD1BE3506300053E40 /* XTLoopScrollUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XTLoopScrollUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74145D11BE3506300053E40 /* XTLoopScrollUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XTLoopScrollUITests.m; sourceTree = "<group>"; };
 		D74145D31BE3506300053E40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D74145DF1BE35DB100053E40 /* XTLoopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XTLoopScrollView.h; path = XTLoopScroll/XTLoopScrollView.h; sourceTree = "<group>"; };
+		D74145E01BE35DB100053E40 /* XTLoopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XTLoopScrollView.m; path = XTLoopScroll/XTLoopScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +108,7 @@
 				D74145B01BE3506100053E40 /* AppDelegate.m */,
 				D74145B21BE3506100053E40 /* ViewController.h */,
 				D74145B31BE3506100053E40 /* ViewController.m */,
+				D74145E21BE35DC300053E40 /* XTLoopScroll */,
 				D74145B51BE3506100053E40 /* Main.storyboard */,
 				D74145B81BE3506100053E40 /* Assets.xcassets */,
 				D74145BA1BE3506100053E40 /* LaunchScreen.storyboard */,
@@ -138,6 +142,15 @@
 				D74145D31BE3506300053E40 /* Info.plist */,
 			);
 			path = XTLoopScrollUITests;
+			sourceTree = "<group>";
+		};
+		D74145E21BE35DC300053E40 /* XTLoopScroll */ = {
+			isa = PBXGroup;
+			children = (
+				D74145DF1BE35DB100053E40 /* XTLoopScrollView.h */,
+				D74145E01BE35DB100053E40 /* XTLoopScrollView.m */,
+			);
+			name = XTLoopScroll;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D74145B41BE3506100053E40 /* ViewController.m in Sources */,
+				D74145E11BE35DB100053E40 /* XTLoopScrollView.m in Sources */,
 				D74145B11BE3506100053E40 /* AppDelegate.m in Sources */,
 				D74145AE1BE3506100053E40 /* main.m in Sources */,
 			);
@@ -498,6 +512,7 @@
 				D74145D81BE3506300053E40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D74145D91BE3506300053E40 /* Build configuration list for PBXNativeTarget "XTLoopScrollTests" */ = {
 			isa = XCConfigurationList;
@@ -506,6 +521,7 @@
 				D74145DB1BE3506300053E40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D74145DC1BE3506300053E40 /* Build configuration list for PBXNativeTarget "XTLoopScrollUITests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +530,7 @@
 				D74145DE1BE3506300053E40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
