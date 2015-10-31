@@ -12,6 +12,8 @@ static int IMAGEVIEW_COUNT = 3 ;
 
 @interface XTLoopScrollView () <UIScrollViewDelegate>
 {
+    UIScrollView            *_scrollView ;
+    
     UIImageView             *_leftImageView;
     UIImageView             *_centerImageView;
     UIImageView             *_rightImageView;
@@ -21,7 +23,6 @@ static int IMAGEVIEW_COUNT = 3 ;
     
     int                     _imageCount;
     BOOL                    _bLoop ;
-    UIViewController        *_ctrller ;
     NSInteger               _durationOfScroll ;
 
     NSTimer                 *_timer ;
@@ -69,7 +70,6 @@ static int IMAGEVIEW_COUNT = 3 ;
 #pragma - Initial
 - (instancetype)initWithFrame:(CGRect)frame
                  andImageList:(NSArray *)imglist
-               withController:(UIViewController *)ctrller
                       canLoop:(BOOL)canLoop
                      duration:(NSInteger)duration
 {
@@ -79,16 +79,15 @@ static int IMAGEVIEW_COUNT = 3 ;
         self.frame = frame ;
         _imglist = imglist ;
         _imageCount = (int)self.imglist.count ;
-        _ctrller = ctrller ;
         _bLoop = canLoop ;
         _durationOfScroll = duration ;
-        
+        self.backgroundColor = [UIColor whiteColor] ;
         [self setup] ;
         
         if (_bLoop) {
             [self loopStart] ;
         }
-
+        
     }
     
     return self;
@@ -115,7 +114,9 @@ static int IMAGEVIEW_COUNT = 3 ;
                                    selector:@selector(loopAction)
                                    userInfo:nil
                                     repeats:YES] ;
-    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode] ;
+    
+    [[NSRunLoop currentRunLoop] addTimer:_timer
+                                 forMode:NSDefaultRunLoopMode] ;
 }
 
 - (void)loopAction
@@ -130,7 +131,7 @@ static int IMAGEVIEW_COUNT = 3 ;
     _leftImageView.image  = [UIImage imageNamed:_imglist[leftImageIndex]]  ;
     _rightImageView.image = [UIImage imageNamed:_imglist[rightImageIndex]] ;
 
-    [self setContentOffset:CGPointMake(self.frame.size.width , 0) animated:NO];
+    [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width , 0) animated:NO];
     
     CATransition *animation = [CATransition animation];
     [animation setDuration:0.35f];
@@ -146,35 +147,43 @@ static int IMAGEVIEW_COUNT = 3 ;
 }
 
 #pragma mark 添加控件
-- (void)addScrollView {
-
-    self.delegate = self;
-    //设置contentSize
-    self.contentSize = CGSizeMake(IMAGEVIEW_COUNT * self.frame.size.width, self.frame.size.height) ;
-    //设置当前显示的位置为中间图片
-    [self setContentOffset:CGPointMake(self.frame.size.width, 0) animated:NO];
+- (void)addScrollView
+{
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] init] ;
+    }
+    CGRect rect = CGRectZero ;
+    rect.size = self.frame.size ;
+    _scrollView.frame = rect ;
     
-    self.pagingEnabled = YES;
-    self.showsHorizontalScrollIndicator=NO;
+    _scrollView.delegate = self;
+    //设置contentSize
+    _scrollView.contentSize = CGSizeMake(IMAGEVIEW_COUNT * _scrollView.frame.size.width, _scrollView.frame.size.height) ;
+    //设置当前显示的位置为中间图片
+    [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0) animated:NO];
+    
+    _scrollView.pagingEnabled = YES;
+    _scrollView.showsHorizontalScrollIndicator=NO;
+    
+    [self addSubview:_scrollView] ;
 }
 
 #pragma mark 添加图片三个控件
 - (void)addImageViews {
     _leftImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     _leftImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:_leftImageView];
+    [_scrollView addSubview:_leftImageView];
     _centerImageView = [[UIImageView alloc]initWithFrame:CGRectMake(self.frame.size.width, 0, self.frame.size.width, self.frame.size.height)];
     _centerImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:_centerImageView];
+    [_scrollView addSubview:_centerImageView];
     _rightImageView = [[UIImageView alloc]initWithFrame:CGRectMake(2 * self.frame.size.width, 0, self.frame.size.width, self.frame.size.height)];
     _rightImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:_rightImageView];
+    [_scrollView addSubview:_rightImageView];
 }
 
 #pragma mark 设置默认显示图片
 - (void)setDefaultImage {
     //加载默认图片
-    
     // set default center
     _centerImageView.image  = [UIImage imageNamed:_imglist[0]];
     
@@ -198,7 +207,7 @@ static int IMAGEVIEW_COUNT = 3 ;
     //注意此方法可以根据页数返回UIPageControl合适的大小
     CGSize size = [_pageControl sizeForNumberOfPages:_imageCount];
     _pageControl.bounds = CGRectMake(0, 0, size.width, size.height);
-    _pageControl.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height - 50);
+    _pageControl.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height - 10);
     //设置颜色
     _pageControl.pageIndicatorTintColor = self.color_pageControl ;
     //设置当前页颜色
@@ -206,20 +215,17 @@ static int IMAGEVIEW_COUNT = 3 ;
     //设置总页数
     _pageControl.numberOfPages = _imageCount ;
     
-    [_ctrller.view addSubview:_pageControl];
-//    [self addSubview:_pageControl];
-
+    [self addSubview:_pageControl];
 }
 
 #pragma mark 添加信息描述控件
 - (void)addLabel
 {    
-    _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, self.frame.size.width,30)];
+    _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width,30)];
     _label.textAlignment = NSTextAlignmentCenter;
     _label.textColor = [UIColor redColor];
     
-    [_ctrller.view addSubview:_label];
-//    [self addSubview:_label];
+    [self addSubview:_label];
 
 }
 
@@ -228,7 +234,7 @@ static int IMAGEVIEW_COUNT = 3 ;
     //重新加载图片
     [self reloadImage];
     //移动到中间
-    [self setContentOffset:CGPointMake(self.frame.size.width, 0) animated:NO];
+    [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0) animated:NO];
     //设置分页
     _pageControl.currentPage = _currentImageIndex;
 
@@ -241,7 +247,7 @@ static int IMAGEVIEW_COUNT = 3 ;
 - (void)reloadImage
 {
     int leftImageIndex,rightImageIndex ;
-    CGPoint offset = [self contentOffset] ;
+    CGPoint offset = [_scrollView contentOffset] ;
     
     if (offset.x > self.frame.size.width)
     { //向右滑动

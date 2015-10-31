@@ -11,14 +11,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface XTLoopScrollView : UIScrollView
+@interface XTLoopScrollView : UIView
 
 @property (nonatomic) UIColor *color_pageControl ;
 @property (nonatomic) UIColor *color_currentPageControl ;
 
 - (instancetype)initWithFrame:(CGRect)frame
                  andImageList:(NSArray *)imglist
-               withController:(UIViewController *)ctrller
                       canLoop:(BOOL)canLoop
                      duration:(NSInteger)duration ;
 
