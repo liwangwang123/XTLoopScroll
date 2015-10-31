@@ -22,4 +22,6 @@
                       canLoop:(BOOL)canLoop
                      duration:(NSInteger)duration ;
 
+- (void)setup ;
+
 @end
