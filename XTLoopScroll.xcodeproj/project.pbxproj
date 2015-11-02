@@ -16,6 +16,7 @@
 		D74145C71BE3506300053E40 /* XTLoopScrollTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74145C61BE3506300053E40 /* XTLoopScrollTests.m */; };
 		D74145D21BE3506300053E40 /* XTLoopScrollUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D74145D11BE3506300053E40 /* XTLoopScrollUITests.m */; };
 		D74145E11BE35DB100053E40 /* XTLoopScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D74145E01BE35DB100053E40 /* XTLoopScrollView.m */; settings = {ASSET_TAGS = (); }; };
+		D796FDC71BE7719100E8BCD2 /* NSTimer+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = D796FDC61BE7719100E8BCD2 /* NSTimer+Addition.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		D74145D31BE3506300053E40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D74145DF1BE35DB100053E40 /* XTLoopScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XTLoopScrollView.h; path = XTLoopScroll/XTLoopScrollView.h; sourceTree = "<group>"; };
 		D74145E01BE35DB100053E40 /* XTLoopScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XTLoopScrollView.m; path = XTLoopScroll/XTLoopScrollView.m; sourceTree = "<group>"; };
+		D796FDC51BE7719100E8BCD2 /* NSTimer+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Addition.h"; sourceTree = "<group>"; };
+		D796FDC61BE7719100E8BCD2 /* NSTimer+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Addition.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +111,8 @@
 				D74145B01BE3506100053E40 /* AppDelegate.m */,
 				D74145B21BE3506100053E40 /* ViewController.h */,
 				D74145B31BE3506100053E40 /* ViewController.m */,
+				D796FDC51BE7719100E8BCD2 /* NSTimer+Addition.h */,
+				D796FDC61BE7719100E8BCD2 /* NSTimer+Addition.m */,
 				D74145E21BE35DC300053E40 /* XTLoopScroll */,
 				D74145B51BE3506100053E40 /* Main.storyboard */,
 				D74145B81BE3506100053E40 /* Assets.xcassets */,
@@ -286,6 +291,7 @@
 				D74145B41BE3506100053E40 /* ViewController.m in Sources */,
 				D74145E11BE35DB100053E40 /* XTLoopScrollView.m in Sources */,
 				D74145B11BE3506100053E40 /* AppDelegate.m in Sources */,
+				D796FDC71BE7719100E8BCD2 /* NSTimer+Addition.m in Sources */,
 				D74145AE1BE3506100053E40 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

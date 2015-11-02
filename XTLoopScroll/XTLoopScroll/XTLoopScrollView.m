@@ -7,6 +7,7 @@
 //
 
 #import "XTLoopScrollView.h"
+#import "NSTimer+Addition.h"
 
 static int IMAGEVIEW_COUNT = 3 ;
 
@@ -25,7 +26,9 @@ static int IMAGEVIEW_COUNT = 3 ;
     BOOL                    _bLoop ;
     NSInteger               _durationOfScroll ;
 
-    NSTimer                 *_timer ;
+    NSTimer                 *_timerLoop ;           // 控制循环
+    NSTimer                 *_timerOverflow ;       // 控制手动后的等待时间
+    BOOL                    bOpenTimer ;            // 开关
 }
 @property (nonatomic)       int     currentImageIndex ;
 @property (nonatomic,copy)  NSArray *imglist ; //dataSource list , string .
@@ -109,13 +112,13 @@ static int IMAGEVIEW_COUNT = 3 ;
 
 - (void)loopStart
 {
-    _timer = [NSTimer timerWithTimeInterval:_durationOfScroll
+    _timerLoop = [NSTimer timerWithTimeInterval:_durationOfScroll
                                      target:self
                                    selector:@selector(loopAction)
                                    userInfo:nil
                                     repeats:YES] ;
-    
-    [[NSRunLoop currentRunLoop] addTimer:_timer
+
+    [[NSRunLoop currentRunLoop] addTimer:_timerLoop
                                  forMode:NSDefaultRunLoopMode] ;
 }
 
@@ -144,6 +147,8 @@ static int IMAGEVIEW_COUNT = 3 ;
     _pageControl.currentPage=_currentImageIndex;
     NSString *imageName=_imglist[_currentImageIndex] ;
     _label.text = imageName ;
+    
+    NSLog(@"auto loop at index : %d",_currentImageIndex) ;
 }
 
 #pragma mark 添加控件
@@ -230,14 +235,14 @@ static int IMAGEVIEW_COUNT = 3 ;
 }
 
 #pragma mark 滚动停止事件
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
     //重新加载图片
     [self reloadImage];
     //移动到中间
     [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0) animated:NO];
     //设置分页
     _pageControl.currentPage = _currentImageIndex;
-
     
     NSString *imageName = _imglist[_currentImageIndex] ;
     _label.text = imageName;
@@ -246,6 +251,9 @@ static int IMAGEVIEW_COUNT = 3 ;
 #pragma mark 重新加载图片
 - (void)reloadImage
 {
+    [self resumeTimerWithDelay] ;
+    
+    
     int leftImageIndex,rightImageIndex ;
     CGPoint offset = [_scrollView contentOffset] ;
     
@@ -260,14 +268,53 @@ static int IMAGEVIEW_COUNT = 3 ;
     
     _centerImageView.image = [UIImage imageNamed:_imglist[_currentImageIndex]];
 
-    NSLog(@"move to image : %@",_imglist[_currentImageIndex]) ;
+    NSLog(@"manual move at index : %d",_currentImageIndex) ;
     
     //重新设置左右图片
     leftImageIndex  = (_currentImageIndex + _imageCount - 1) % _imageCount ;
     rightImageIndex = (_currentImageIndex + 1) % _imageCount ;
     _leftImageView.image  = [UIImage imageNamed:_imglist[leftImageIndex]]  ;
     _rightImageView.image = [UIImage imageNamed:_imglist[rightImageIndex]] ;
+    
 }
+
+- (void)resumeTimerWithDelay
+{
+    [_timerLoop pause] ;
+
+    if (!bOpenTimer)
+    {
+        if ([_timerOverflow isValid])
+        {
+            [_timerOverflow invalidate] ;
+        }
+        
+        _timerOverflow = [NSTimer timerWithTimeInterval:_durationOfScroll
+                                                 target:self
+                                               selector:@selector(timerIsOverflow)
+                                               userInfo:nil
+                                                repeats:NO] ;
+        
+        [[NSRunLoop currentRunLoop] addTimer:_timerOverflow
+                                     forMode:NSDefaultRunLoopMode] ;
+
+    }
+}
+
+- (void)timerIsOverflow
+{
+    bOpenTimer = YES ;
+    
+    if (bOpenTimer)
+    {
+        [_timerLoop resume] ;
+        bOpenTimer = NO ;
+        
+        [_timerOverflow invalidate] ;
+        _timerOverflow = nil ;
+    }
+}
+
 
 
 /*
