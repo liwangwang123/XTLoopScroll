@@ -1,6 +1,7 @@
 # XTLoopScroll
 iOS 循环 轮播 scrollview
 使用方法:
+
 CGRect rect = CGRectMake(0, 20, APPFRAME.size.width, 100) ;
     XTLoopScrollView *loopScroll = [[XTLoopScrollView alloc] initWithFrame:rect
                                                               andImageList:@[@"1",@"2",@"3",@"4",@"5"]
